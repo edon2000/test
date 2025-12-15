@@ -24,15 +24,15 @@ public class AuthController {
     @GET
     @Path("/login")
     @Produces(MediaType.TEXT_HTML)
-    public TemplateInstance loginPage() {
-        return login.instance();
+    public String loginPage() {
+        return login.render();
     }
 
     @GET
     @Path("/register")
     @Produces(MediaType.TEXT_HTML)
-    public TemplateInstance registerPage() {
-        return register.instance();
+    public String registerPage() {
+        return register.render();
     }
 
     @POST
@@ -40,12 +40,12 @@ public class AuthController {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.TEXT_HTML)
     @Transactional
-    public Object login(@FormParam("email") String email, @FormParam("password") String password) {
-        User user = User.findByEmail(email);
+    public Object login(@FormParam("name") String name, @FormParam("password") String password) {
+        User user = User.find("name", name).firstResult();
         if (user != null && user.password.equals(password)) {
             return Response.seeOther(URI.create("/dashboard")).build();
         }
-        return login.data("error", true);
+        return login.data("error", true).render();
     }
 
     @POST
@@ -53,11 +53,11 @@ public class AuthController {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.TEXT_HTML)
     @Transactional
-    public Object register(@FormParam("name") String name, @FormParam("email") String email, @FormParam("password") String password) {
+    public Object register(@FormParam("name") String name, @FormParam("age") Integer age, @FormParam("email") String email, @FormParam("password") String password) {
         if (User.findByEmail(email) != null) {
-            return register.data("error", true);
+            return register.data("error", true).render();
         }
-        User user = new User(name, email, password);
+        User user = new User(name, age, email, password);
         user.persist();
         return Response.seeOther(URI.create("/dashboard")).build();
     }
@@ -65,7 +65,7 @@ public class AuthController {
     @GET
     @Path("/dashboard")
     @Produces(MediaType.TEXT_HTML)
-    public TemplateInstance dashboard() {
-        return dashboard.data("users", User.listAll());
+    public String dashboard() {
+        return dashboard.data("users", User.listAll()).render();
     }
 }

@@ -9,13 +9,13 @@
     <div class="auth-container">
         <h1>Login</h1>
         <form hx-post="/auth/login" hx-target="body" hx-swap="outerHTML" class="auth-form">
-            <input type="email" name="email" placeholder="Email" required>
+            <input type="text" name="name" placeholder="Name" required>
             <input type="password" name="password" placeholder="Password" required>
             <button type="submit" class="btn-loading">Login</button>
         </form>
         <p><a href="/auth/register">Don't have an account? Register</a></p>
         {#if error}
-        <div class="error">Invalid email or password</div>
+        <div class="error">Invalid name or password</div>
         {/if}
     </div>
 </body>

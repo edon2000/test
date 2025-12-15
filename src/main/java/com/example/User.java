@@ -10,6 +10,8 @@ import jakarta.persistence.Column;
 public class User extends PanacheEntity {
     public String name;
     
+    public Integer age;
+    
     @Column(unique = true)
     public String email;
     
@@ -17,8 +19,9 @@ public class User extends PanacheEntity {
     
     public User() {}
     
-    public User(String name, String email, String password) {
+    public User(String name, Integer age, String email, String password) {
         this.name = name;
+        this.age = age;
         this.email = email;
         this.password = password;
     }

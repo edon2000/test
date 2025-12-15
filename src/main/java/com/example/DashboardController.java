@@ -14,7 +14,7 @@ public class DashboardController {
     
     @GET
     @Produces(MediaType.TEXT_HTML)
-    public TemplateInstance get() {
-        return dashboard.data("users", User.listAll());
+    public String get() {
+        return dashboard.data("users", User.listAll()).render();
     }
 }

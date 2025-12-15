@@ -1,31 +1,57 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Name Registration</title>
+    <title>Welcome - Name Registration System</title>
+    <link rel="stylesheet" href="/styles.css">
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
-    <style>
-        body { font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; }
-        form { margin-bottom: 30px; }
-        input[type="text"] { padding: 10px; margin: 10px; width: 200px; }
-        button { padding: 10px 20px; background: #007cba; color: white; border: none; cursor: pointer; }
-        button:hover { background: #005a87; }
-        #results { margin-top: 20px; }
-    </style>
 </head>
 <body>
-    <h1>Name Registration</h1>
-    
-    <form hx-post="/register" hx-target="#results">
-        <input type="text" name="name" placeholder="Enter your name" required>
-        <button type="submit">Register (<span id="count" hx-get="/count" hx-trigger="load, from:form">0</span>)</button>
-    </form>
-    
-    <div id="success-message" style="display:none; color:green; margin:10px; padding:10px; background:#e8f5e8; border:1px solid #4caf50; border-radius:4px;">
-        ✓ Name registered successfully!
+    <nav class="navbar">
+        <div class="nav-brand">
+            <h2>Name Registration System</h2>
+        </div>
+        <div class="nav-links">
+            <a href="/auth/register" class="nav-link">Register</a>
+            <a href="/auth/login" class="nav-link">Login</a>
+            <a href="/dashboard" class="nav-link">Dashboard</a>
+        </div>
+    </nav>
+
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1>Welcome to Name Registration System</h1>
+            <p class="hero-subtitle">A modern, secure platform for user registration and management</p>
+            
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number" hx-get="/count" hx-trigger="load">0</span>
+                    <span class="stat-label">Registered Users</span>
+                </div>
+            </div>
+
+            <div class="hero-actions">
+                <a href="/auth/register" class="btn btn-primary">Get Started - Register Now</a>
+                <a href="/auth/login" class="btn btn-secondary">Already have account? Login</a>
+            </div>
+        </div>
     </div>
-    
-    <div id="results" hx-get="/results" hx-trigger="load">
-        Loading...
+
+    <div class="features-section">
+        <h2>Features</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>🔐 Secure Registration</h3>
+                <p>Register with name, age, email and password</p>
+            </div>
+            <div class="feature-card">
+                <h3>📊 Dashboard</h3>
+                <p>View all registered users and statistics</p>
+            </div>
+            <div class="feature-card">
+                <h3>⚡ Real-time Updates</h3>
+                <p>HTMX powered dynamic interface</p>
+            </div>
+        </div>
     </div>
 </body>
 </html>

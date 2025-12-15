@@ -20,7 +20,7 @@ public class UserResource {
     @GET
     @Produces(MediaType.TEXT_HTML)
     public String home() {
-        return index.data("users", User.listAll()).render();
+        return index.render();
     }
 
     @POST
