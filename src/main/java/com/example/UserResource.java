@@ -19,8 +19,8 @@ public class UserResource {
 
     @GET
     @Produces(MediaType.TEXT_HTML)
-    public Response home() {
-        return Response.seeOther(URI.create("/auth/login")).build();
+    public String home() {
+        return index.data("users", User.listAll()).render();
     }
 
     @POST
