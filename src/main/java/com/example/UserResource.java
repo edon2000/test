@@ -2,9 +2,11 @@ package com.example;
 
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import io.quarkus.qute.Template;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import java.net.URI;
 
 @Path("/")
 public class UserResource {
@@ -17,8 +19,8 @@ public class UserResource {
 
     @GET
     @Produces(MediaType.TEXT_HTML)
-    public String home() {
-        return index.render();
+    public Response home() {
+        return Response.seeOther(URI.create("/auth/login")).build();
     }
 
     @POST
