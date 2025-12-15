@@ -26,7 +26,7 @@ public class AuthController {
     @Produces(MediaType.TEXT_HTML)
     public String loginPage() {
         try {
-            return login.render();
+            return login.data("error", false).render();
         } catch (io.quarkus.qute.TemplateException e) {
             return "<html><body><h1>TEMPLATE ERROR</h1><p>Login template failed: " + e.getMessage() + "</p><form method='post' action='/login'><input name='name' placeholder='Name' required><input name='password' type='password' placeholder='Password' required><button type='submit'>Login</button></form></body></html>";
         } catch (Exception e) {
@@ -39,7 +39,7 @@ public class AuthController {
     @Produces(MediaType.TEXT_HTML)
     public String registerPage() {
         try {
-            return register.render();
+            return register.data("error", false).render();
         } catch (io.quarkus.qute.TemplateException e) {
             return "<html><body><h1>TEMPLATE ERROR</h1><p>Register template failed: " + e.getMessage() + "</p><form method='post' action='/register'><input name='name' placeholder='Name' required><input name='age' type='number' placeholder='Age' required><input name='email' type='email' placeholder='Email' required><input name='password' type='password' placeholder='Password' required><button type='submit'>Register</button></form></body></html>";
         } catch (Exception e) {
