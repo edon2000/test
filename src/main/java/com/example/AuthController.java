@@ -27,8 +27,12 @@ public class AuthController {
     public String loginPage() {
         try {
             return login.render();
+        } catch (io.quarkus.qute.TemplateException e) {
+            return "<html><body><h1>TEMPLATE ERROR</h1><p>Login template failed: " + e.getMessage() + "</p><form method='post' action='/login'><input name='name' placeholder='Name' required><input name='password' type='password' placeholder='Password' required><button type='submit'>Login</button></form></body></html>";
+        } catch (jakarta.inject.ConfigurationException e) {
+            return "<html><body><h1>INJECTION ERROR</h1><p>Template injection failed: " + e.getMessage() + "</p></body></html>";
         } catch (Exception e) {
-            return "<html><body><h1>Login</h1><form method='post' action='/login'><input name='name' placeholder='Name' required><input name='password' type='password' placeholder='Password' required><button type='submit'>Login</button></form><a href='/register'>Register</a></body></html>";
+            return "<html><body><h1>UNKNOWN ERROR</h1><p>Login page error: " + e.getClass().getSimpleName() + " - " + e.getMessage() + "</p></body></html>";
         }
     }
 
@@ -38,8 +42,12 @@ public class AuthController {
     public String registerPage() {
         try {
             return register.render();
+        } catch (io.quarkus.qute.TemplateException e) {
+            return "<html><body><h1>TEMPLATE ERROR</h1><p>Register template failed: " + e.getMessage() + "</p><form method='post' action='/register'><input name='name' placeholder='Name' required><input name='age' type='number' placeholder='Age' required><input name='email' type='email' placeholder='Email' required><input name='password' type='password' placeholder='Password' required><button type='submit'>Register</button></form></body></html>";
+        } catch (jakarta.inject.ConfigurationException e) {
+            return "<html><body><h1>INJECTION ERROR</h1><p>Template injection failed: " + e.getMessage() + "</p></body></html>";
         } catch (Exception e) {
-            return "<html><body><h1>Register</h1><form method='post' action='/register'><input name='name' placeholder='Name' required><input name='age' type='number' placeholder='Age' required><input name='email' type='email' placeholder='Email' required><input name='password' type='password' placeholder='Password' required><button type='submit'>Register</button></form><a href='/login'>Login</a></body></html>";
+            return "<html><body><h1>UNKNOWN ERROR</h1><p>Register page error: " + e.getClass().getSimpleName() + " - " + e.getMessage() + "</p></body></html>";
         }
     }
 
@@ -59,8 +67,14 @@ public class AuthController {
                 return dashboard.data("users", User.listAll()).render();
             }
             return login.data("error", true).render();
+        } catch (jakarta.persistence.PersistenceException e) {
+            return "<html><body><h1>DATABASE ERROR</h1><p>Login database error: " + e.getMessage() + "</p><a href='/login'>Try Again</a></body></html>";
+        } catch (NumberFormatException e) {
+            return "<html><body><h1>VALIDATION ERROR</h1><p>Invalid input format: " + e.getMessage() + "</p><a href='/login'>Try Again</a></body></html>";
+        } catch (io.quarkus.qute.TemplateException e) {
+            return "<html><body><h1>TEMPLATE ERROR</h1><p>Login template error: " + e.getMessage() + "</p><a href='/login'>Try Again</a></body></html>";
         } catch (Exception e) {
-            return login.data("error", true).render();
+            return "<html><body><h1>API ERROR</h1><p>Login API error: " + e.getClass().getSimpleName() + " - " + e.getMessage() + "</p><a href='/login'>Try Again</a></body></html>";
         }
     }
 
@@ -88,8 +102,14 @@ public class AuthController {
             User user = new User(name.trim(), age, email.trim(), password.trim());
             user.persist();
             return dashboard.data("users", User.listAll()).render();
+        } catch (jakarta.persistence.PersistenceException e) {
+            return "<html><body><h1>DATABASE ERROR</h1><p>Registration database error: " + e.getMessage() + "</p><a href='/register'>Try Again</a></body></html>";
+        } catch (NumberFormatException e) {
+            return "<html><body><h1>VALIDATION ERROR</h1><p>Invalid age format: " + e.getMessage() + "</p><a href='/register'>Try Again</a></body></html>";
+        } catch (io.quarkus.qute.TemplateException e) {
+            return "<html><body><h1>TEMPLATE ERROR</h1><p>Register template error: " + e.getMessage() + "</p><a href='/register'>Try Again</a></body></html>";
         } catch (Exception e) {
-            return register.data("error", true).render();
+            return "<html><body><h1>API ERROR</h1><p>Registration API error: " + e.getClass().getSimpleName() + " - " + e.getMessage() + "</p><a href='/register'>Try Again</a></body></html>";
         }
     }
 
@@ -98,6 +118,14 @@ public class AuthController {
     @Produces(MediaType.TEXT_HTML)
     @Transactional
     public String dashboard() {
-        return dashboard.data("users", User.listAll()).render();
+        try {
+            return dashboard.data("users", User.listAll()).render();
+        } catch (jakarta.persistence.PersistenceException e) {
+            return "<html><body><h1>DATABASE ERROR</h1><p>Dashboard database error: " + e.getMessage() + "</p><a href='/'>Home</a></body></html>";
+        } catch (io.quarkus.qute.TemplateException e) {
+            return "<html><body><h1>TEMPLATE ERROR</h1><p>Dashboard template error: " + e.getMessage() + "</p><a href='/'>Home</a></body></html>";
+        } catch (Exception e) {
+            return "<html><body><h1>API ERROR</h1><p>Dashboard API error: " + e.getClass().getSimpleName() + " - " + e.getMessage() + "</p><a href='/'>Home</a></body></html>";
+        }
     }
 }
