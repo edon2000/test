@@ -24,17 +24,15 @@ public class AuthController {
     @GET
     @Path("/login")
     @Produces(MediaType.TEXT_HTML)
-    @Transactional
-    public String loginPage() {
-        return login.render();
+    public TemplateInstance loginPage() {
+        return login.instance();
     }
 
     @GET
     @Path("/register")
     @Produces(MediaType.TEXT_HTML)
-    @Transactional
-    public String registerPage() {
-        return register.render();
+    public TemplateInstance registerPage() {
+        return register.instance();
     }
 
     @POST
