@@ -23,20 +23,7 @@ public class UserResource {
         return index.render();
     }
 
-    @POST
-    @Path("/register")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Produces(MediaType.TEXT_HTML)
-    @Transactional
-    public String register(@FormParam("name") String name) {
-        boolean success = false;
-        if (name != null && !name.trim().isEmpty()) {
-            User user = new User(name.trim(), 25, "user@example.com", "password");
-            user.persist();
-            success = user.isPersistent();
-        }
-        return results.data("users", User.listAll()).data("success", success).render();
-    }
+
 
     @GET
     @Path("/results")
