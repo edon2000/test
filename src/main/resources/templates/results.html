@@ -1,0 +1,20 @@
+<div>
+    {#if success}
+    <div style="color:green; margin-bottom:15px; padding:10px; background:#e8f5e8; border:1px solid #4caf50; border-radius:4px;">
+        ✓ Registration successful!
+    </div>
+    {/if}
+    <h2>Registered Users ({users.size()})</h2>
+    {#if users.isEmpty()}
+        <p>No users registered yet.</p>
+    {#else}
+        <div style="background:#f0f8ff; padding:10px; margin-bottom:15px; border-radius:4px; text-align:center;">
+            <strong>Total Registered: {users.size()} user{#if users.size() != 1}s{/if}</strong>
+        </div>
+        <ul>
+        {#for user in users}
+            <li>#{user.id} - {user.name}</li>
+        {/for}
+        </ul>
+    {/if}
+</div>

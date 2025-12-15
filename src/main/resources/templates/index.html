@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Name Registration</title>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; }
+        form { margin-bottom: 30px; }
+        input[type="text"] { padding: 10px; margin: 10px; width: 200px; }
+        button { padding: 10px 20px; background: #007cba; color: white; border: none; cursor: pointer; }
+        button:hover { background: #005a87; }
+        #results { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Name Registration</h1>
+    
+    <form hx-post="/register" hx-target="#results">
+        <input type="text" name="name" placeholder="Enter your name" required>
+        <button type="submit">Register (<span id="count" hx-get="/count" hx-trigger="load, from:form">0</span>)</button>
+    </form>
+    
+    <div id="success-message" style="display:none; color:green; margin:10px; padding:10px; background:#e8f5e8; border:1px solid #4caf50; border-radius:4px;">
+        ✓ Name registered successfully!
+    </div>
+    
+    <div id="results" hx-get="/results" hx-trigger="load">
+        Loading...
+    </div>
+</body>
+</html>
