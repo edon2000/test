@@ -29,8 +29,6 @@ public class AuthController {
             return login.render();
         } catch (io.quarkus.qute.TemplateException e) {
             return "<html><body><h1>TEMPLATE ERROR</h1><p>Login template failed: " + e.getMessage() + "</p><form method='post' action='/login'><input name='name' placeholder='Name' required><input name='password' type='password' placeholder='Password' required><button type='submit'>Login</button></form></body></html>";
-        } catch (jakarta.inject.ConfigurationException e) {
-            return "<html><body><h1>INJECTION ERROR</h1><p>Template injection failed: " + e.getMessage() + "</p></body></html>";
         } catch (Exception e) {
             return "<html><body><h1>UNKNOWN ERROR</h1><p>Login page error: " + e.getClass().getSimpleName() + " - " + e.getMessage() + "</p></body></html>";
         }
@@ -44,8 +42,6 @@ public class AuthController {
             return register.render();
         } catch (io.quarkus.qute.TemplateException e) {
             return "<html><body><h1>TEMPLATE ERROR</h1><p>Register template failed: " + e.getMessage() + "</p><form method='post' action='/register'><input name='name' placeholder='Name' required><input name='age' type='number' placeholder='Age' required><input name='email' type='email' placeholder='Email' required><input name='password' type='password' placeholder='Password' required><button type='submit'>Register</button></form></body></html>";
-        } catch (jakarta.inject.ConfigurationException e) {
-            return "<html><body><h1>INJECTION ERROR</h1><p>Template injection failed: " + e.getMessage() + "</p></body></html>";
         } catch (Exception e) {
             return "<html><body><h1>UNKNOWN ERROR</h1><p>Register page error: " + e.getClass().getSimpleName() + " - " + e.getMessage() + "</p></body></html>";
         }
