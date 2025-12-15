@@ -38,22 +38,24 @@ public class AuthController {
     @POST
     @Path("/login")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.TEXT_HTML)
     @Transactional
-    public Response login(@FormParam("email") String email, @FormParam("password") String password) {
+    public Object login(@FormParam("email") String email, @FormParam("password") String password) {
         User user = User.findByEmail(email);
         if (user != null && user.password.equals(password)) {
             return Response.seeOther(URI.create("/dashboard")).build();
         }
-        return Response.seeOther(URI.create("/auth/login?error=1")).build();
+        return login.data("error", true);
     }
 
     @POST
     @Path("/register")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.TEXT_HTML)
     @Transactional
-    public Response register(@FormParam("name") String name, @FormParam("email") String email, @FormParam("password") String password) {
+    public Object register(@FormParam("name") String name, @FormParam("email") String email, @FormParam("password") String password) {
         if (User.findByEmail(email) != null) {
-            return Response.seeOther(URI.create("/auth/register?error=1")).build();
+            return register.data("error", true);
         }
         User user = new User(name, email, password);
         user.persist();
