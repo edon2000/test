@@ -25,14 +25,22 @@ public class AuthController {
     @Path("/login")
     @Produces(MediaType.TEXT_HTML)
     public String loginPage() {
-        return login.render();
+        try {
+            return login.render();
+        } catch (Exception e) {
+            return "<html><body><h1>Login</h1><form method='post' action='/login'><input name='name' placeholder='Name' required><input name='password' type='password' placeholder='Password' required><button type='submit'>Login</button></form><a href='/register'>Register</a></body></html>";
+        }
     }
 
     @GET
     @Path("/register")
     @Produces(MediaType.TEXT_HTML)
     public String registerPage() {
-        return register.render();
+        try {
+            return register.render();
+        } catch (Exception e) {
+            return "<html><body><h1>Register</h1><form method='post' action='/register'><input name='name' placeholder='Name' required><input name='age' type='number' placeholder='Age' required><input name='email' type='email' placeholder='Email' required><input name='password' type='password' placeholder='Password' required><button type='submit'>Register</button></form><a href='/login'>Login</a></body></html>";
+        }
     }
 
     @POST
