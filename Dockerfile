@@ -8,4 +8,4 @@ FROM eclipse-temurin:21-jre
 WORKDIR /app
 COPY --from=build /app/target/quarkus-app/ ./
 EXPOSE 8080
-CMD ["java", "-jar", "quarkus-run.jar"]
+CMD ["java", "-Djava.net.preferIPv4Stack=true", "-jar", "quarkus-run.jar"]
