@@ -181,6 +181,87 @@ body {
     line-height: 1.6;
 }
 
+/* Advanced Forms */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 10px 0;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+}
+
+.checkbox-group label {
+    font-size: 14px;
+    color: #666;
+    cursor: pointer;
+}
+
+.auth-form select {
+    padding: 12px;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 16px;
+    background: white;
+    transition: all 0.3s ease;
+}
+
+.auth-form select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.auth-links {
+    text-align: center;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.auth-links a {
+    color: #667eea;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.auth-links a:hover {
+    text-decoration: underline;
+}
+
+/* Success Container */
+.success-container {
+    max-width: 500px;
+    margin: 100px auto;
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    text-align: center;
+    animation: slideUp 0.5s ease;
+}
+
+.success-container h1 {
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.success-container p {
+    font-size: 18px;
+    margin-bottom: 15px;
+    opacity: 0.9;
+}
+
+.success-container .btn {
+    background: white;
+    color: #4CAF50;
+    margin-top: 20px;
+}
+
 /* Auth Pages */
 .auth-container {
     max-width: 400px;
@@ -423,7 +504,14 @@ body {
     }
     
     .nav-links {
-        gap: 15px;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .nav-link {
+        font-size: 14px;
+        padding: 6px 12px;
     }
     
     .hero-content h1 {
