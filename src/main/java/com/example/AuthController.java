@@ -40,10 +40,14 @@ public class AuthController {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.TEXT_HTML)
     @Transactional
-    public Object login(@FormParam("name") String name, @FormParam("password") String password) {
-        User user = User.find("name", name).firstResult();
+    public String login(@FormParam("name") String name, @FormParam("password") String password) {
+        if (name == null || password == null || name.trim().isEmpty() || password.trim().isEmpty()) {
+            return login.data("error", true).render();
+        }
+        
+        User user = User.find("name", name.trim()).firstResult();
         if (user != null && user.password.equals(password)) {
-            return Response.seeOther(URI.create("/dashboard")).build();
+            return dashboard.data("users", User.listAll()).render();
         }
         return login.data("error", true).render();
     }
@@ -53,13 +57,19 @@ public class AuthController {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.TEXT_HTML)
     @Transactional
-    public Object register(@FormParam("name") String name, @FormParam("age") Integer age, @FormParam("email") String email, @FormParam("password") String password) {
-        if (User.findByEmail(email) != null) {
+    public String register(@FormParam("name") String name, @FormParam("age") Integer age, @FormParam("email") String email, @FormParam("password") String password) {
+        if (name == null || email == null || password == null || age == null || 
+            name.trim().isEmpty() || email.trim().isEmpty() || password.trim().isEmpty()) {
             return register.data("error", true).render();
         }
-        User user = new User(name, age, email, password);
+        
+        if (User.findByEmail(email.trim()) != null) {
+            return register.data("error", true).render();
+        }
+        
+        User user = new User(name.trim(), age, email.trim(), password);
         user.persist();
-        return Response.seeOther(URI.create("/dashboard")).build();
+        return dashboard.data("users", User.listAll()).render();
     }
 
     @GET
