@@ -41,15 +41,19 @@ public class AuthController {
     @Produces(MediaType.TEXT_HTML)
     @Transactional
     public String login(@FormParam("name") String name, @FormParam("password") String password) {
-        if (name == null || password == null || name.trim().isEmpty() || password.trim().isEmpty()) {
+        try {
+            if (name == null || password == null || name.trim().isEmpty() || password.trim().isEmpty()) {
+                return login.data("error", true).render();
+            }
+            
+            User user = User.find("name", name.trim()).firstResult();
+            if (user != null && user.password.equals(password.trim())) {
+                return dashboard.data("users", User.listAll()).render();
+            }
+            return login.data("error", true).render();
+        } catch (Exception e) {
             return login.data("error", true).render();
         }
-        
-        User user = User.find("name", name.trim()).firstResult();
-        if (user != null && user.password.equals(password)) {
-            return dashboard.data("users", User.listAll()).render();
-        }
-        return login.data("error", true).render();
     }
 
     @POST
@@ -57,19 +61,28 @@ public class AuthController {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.TEXT_HTML)
     @Transactional
-    public String register(@FormParam("name") String name, @FormParam("age") Integer age, @FormParam("email") String email, @FormParam("password") String password) {
-        if (name == null || email == null || password == null || age == null || 
-            name.trim().isEmpty() || email.trim().isEmpty() || password.trim().isEmpty()) {
+    public String register(@FormParam("name") String name, @FormParam("age") String ageStr, @FormParam("email") String email, @FormParam("password") String password) {
+        try {
+            if (name == null || email == null || password == null || ageStr == null || 
+                name.trim().isEmpty() || email.trim().isEmpty() || password.trim().isEmpty() || ageStr.trim().isEmpty()) {
+                return register.data("error", true).render();
+            }
+            
+            Integer age = Integer.parseInt(ageStr.trim());
+            if (age < 1 || age > 120) {
+                return register.data("error", true).render();
+            }
+            
+            if (User.findByEmail(email.trim()) != null) {
+                return register.data("error", true).render();
+            }
+            
+            User user = new User(name.trim(), age, email.trim(), password.trim());
+            user.persist();
+            return dashboard.data("users", User.listAll()).render();
+        } catch (Exception e) {
             return register.data("error", true).render();
         }
-        
-        if (User.findByEmail(email.trim()) != null) {
-            return register.data("error", true).render();
-        }
-        
-        User user = new User(name.trim(), age, email.trim(), password);
-        user.persist();
-        return dashboard.data("users", User.listAll()).render();
     }
 
     @GET
