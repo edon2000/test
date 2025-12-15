@@ -31,7 +31,7 @@ public class UserResource {
     public String register(@FormParam("name") String name) {
         boolean success = false;
         if (name != null && !name.trim().isEmpty()) {
-            User user = new User(name.trim());
+            User user = new User(name.trim(), "user@example.com", "password");
             user.persist();
             success = user.isPersistent();
         }

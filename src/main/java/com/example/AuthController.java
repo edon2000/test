@@ -67,16 +67,3 @@ public class AuthController {
         return dashboard.data("users", User.listAll());
     }
 }
-
-@Path("/dashboard")
-public class DashboardController {
-    
-    @Inject
-    Template dashboard;
-    
-    @GET
-    @Produces(MediaType.TEXT_HTML)
-    public TemplateInstance get() {
-        return dashboard.data("users", User.listAll());
-    }
-}
